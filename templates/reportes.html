@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>CENTIX - Reportes</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+CENTIX
+</div>
+
+<div class="menu">
+
+<a href="/">📊 Dashboard</a>
+<a href="/monitoreo">📡 Monitoreo</a>
+<a href="/diagnostico">🧠 Diagnóstico IA</a>
+<a href="/historial">📋 Historial</a>
+<a href="/reportes">📄 Reportes</a>
+<a href="/configuracion">⚙ Configuración</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<h1>📄 Centro de Reportes</h1>
+
+<div class="cards">
+
+<div class="card">
+<h3>🔴 LOS</h3>
+<h1>135</h1>
+</div>
+
+<div class="card">
+<h3>🟠 Power Fail</h3>
+<h1>48</h1>
+</div>
+
+<div class="card">
+<h3>⚫ Offline</h3>
+<h1>21</h1>
+</div>
+
+<div class="card">
+<h3>📡 OLT más afectada</h3>
+<h1>CENTRAL</h1>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<button>
+📄 Exportar PDF
+</button>
+
+<br><br>
+
+<button>
+📊 Exportar Excel
+</button>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

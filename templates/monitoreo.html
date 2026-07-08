@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>CENTIX - Monitoreo</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<meta http-equiv="refresh" content="60">
+
+<style>
+
+.alerta{
+
+    background:white;
+    padding:15px;
+    margin-bottom:15px;
+
+    border-radius:10px;
+
+    box-shadow:0 0 10px rgba(0,0,0,.1);
+
+}
+
+.critico{
+    border-left:8px solid red;
+}
+
+.riesgo{
+    border-left:8px solid orange;
+}
+
+.leve{
+    border-left:8px solid gold;
+}
+
+.grid-alertas{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fill,minmax(350px,1fr));
+
+    gap:15px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+    <div class="logo">
+        CENTIX
+    </div>
+
+    <div class="menu">
+
+        <a href="/">📊 Dashboard</a>
+
+        <a href="/monitoreo">📡 Monitoreo</a>
+
+        <a href="/diagnostico">🧠 Diagnóstico IA</a>
+
+        <a href="/historial">📋 Historial</a>
+
+        <a href="/reportes">📄 Reportes</a>
+
+        <a href="/configuracion">⚙ Configuración</a>
+
+    </div>
+
+</div>
+
+<div class="main">
+
+<h1>📡 Monitoreo Inteligente</h1>
+
+<div class="cards">
+
+<div class="card">
+<h3>📊 ONUs Totales</h3>
+<h1>{{ total_onus }}</h1>
+</div>
+
+<div class="card">
+<h3>🟢 Online</h3>
+<h1>{{ online }}</h1>
+</div>
+
+<div class="card">
+<h3>🔴 LOS</h3>
+<h1>{{ los }}</h1>
+</div>
+
+<div class="card">
+<h3>🟠 Power Fail</h3>
+<h1>{{ power_fail }}</h1>
+</div>
+
+<div class="card">
+<h3>⚫ Offline</h3>
+<h1>{{ offline }}</h1>
+</div>
+
+</div>
+
+<br>
+
+<h2>🚨 Alertas Detectadas</h2>
+
+{% if incidencias %}
+
+<div class="grid-alertas">
+
+{% for alerta in incidencias %}
+
+<div class="alerta
+
+{% if alerta.cantidad >= 10 %}
+critico
+{% elif alerta.cantidad >= 5 %}
+riesgo
+{% else %}
+leve
+{% endif %}
+
+">
+
+<h3>
+
+OLT {{ alerta.olt }}
+
+|
+
+BOARD {{ alerta.board }}
+
+|
+
+PUERTO {{ alerta.port }}
+
+</h3>
+
+<p>
+📍 Zona:
+<b>{{ alerta.zona }}</b>
+</p>
+
+<p>
+📡 Estado:
+<b>{{ alerta.estado }}</b>
+</p>
+
+<p>
+👥 Clientes afectados:
+<b>{{ alerta.cantidad }}</b>
+</p>
+
+<p>
+⏱ Tiempo:
+<b>{{ alerta.tiempo }}</b>
+</p>
+
+{% if alerta.cantidad >= 10 %}
+
+<p>
+🔴 CRÍTICO
+</p>
+
+{% elif alerta.cantidad >= 5 %}
+
+<p>
+🟠 RIESGO
+</p>
+
+{% else %}
+
+<p>
+🟡 ADVERTENCIA
+</p>
+
+{% endif %}
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="alerta">
+
+✅ No se detectan incidencias masivas.
+
+</div>
+
+{% endif %}
+
+</div>
+
+</body>
+
+</html>

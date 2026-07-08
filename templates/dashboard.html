@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CENTIX - Dashboard</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+```
+<div class="logo">
+    CENTIX
+</div>
+
+<div class="menu">
+
+    <a href="/">📊 Dashboard</a>
+
+    <a href="/monitoreo">📡 Monitoreo</a>
+
+    <a href="/diagnostico">🧠 Diagnóstico IA</a>
+
+    <a href="/historial">📋 Historial</a>
+
+    <a href="/reportes">📄 Reportes</a>
+
+    <a href="/configuracion">⚙ Configuración</a>
+
+</div>
+```
+
+</div>
+
+<div class="main">
+
+<h1>📊 Dashboard Ejecutivo</h1>
+
+<div class="cards">
+
+```
+<div class="card">
+    <h3>🟢 ONUs Online</h3>
+    <h1>5231</h1>
+</div>
+
+<div class="card">
+    <h3>🔴 LOS</h3>
+    <h1>15</h1>
+</div>
+
+<div class="card">
+    <h3>🟠 Power Fail</h3>
+    <h1>8</h1>
+</div>
+
+<div class="card">
+    <h3>⚫ Offline</h3>
+    <h1>4</h1>
+</div>
+```
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>📊 Estado General de ONUs</h2>
+
+<canvas id="graficoEstados"></canvas>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>📈 Incidencias por OLT</h2>
+
+<canvas id="graficoOLT"></canvas>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>🥧 Distribución de Fallas</h2>
+
+<canvas id="graficoPie"></canvas>
+
+</div>
+
+<br>
+
+<h2>🚨 Resumen de Incidencias</h2>
+
+<table>
+
+<tr>
+<th>OLT</th>
+<th>Board</th>
+<th>Puerto</th>
+<th>LOS</th>
+<th>Power Fail</th>
+<th>Offline</th>
+<th>Estado</th>
+</tr>
+
+<tr>
+<td>CENTRAL</td>
+<td>14</td>
+<td>15</td>
+<td>15</td>
+<td>0</td>
+<td>0</td>
+<td>🔴 Crítico</td>
+</tr>
+
+<tr>
+<td>JICAMARCA</td>
+<td>5</td>
+<td>8</td>
+<td>0</td>
+<td>3</td>
+<td>1</td>
+<td>🟠 Riesgo</td>
+</tr>
+
+<tr>
+<td>JUAN PABLO II</td>
+<td>2</td>
+<td>4</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>🟢 Normal</td>
+</tr>
+
+</table>
+
+</div>
+
+<script>
+
+new Chart(
+document.getElementById('graficoEstados'),
+{
+type:'bar',
+
+data:{
+labels:[
+'Online',
+'LOS',
+'Power Fail',
+'Offline'
+],
+
+datasets:[{
+label:'ONUs',
+data:[5231,15,8,4]
+}]
+}
+
+}
+);
+
+new Chart(
+document.getElementById('graficoOLT'),
+{
+type:'bar',
+
+data:{
+labels:[
+'Central',
+'Juan Pablo II',
+'Jicamarca'
+],
+
+datasets:[{
+label:'Incidencias',
+data:[15,2,4]
+}]
+}
+
+}
+);
+
+new Chart(
+document.getElementById('graficoPie'),
+{
+type:'pie',
+
+data:{
+labels:[
+'LOS',
+'Power Fail',
+'Offline'
+],
+
+datasets:[{
+data:[15,8,4]
+}]
+}
+
+}
+);
+
+</script>
+
+</body>
+
+</html>

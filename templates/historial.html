@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>CENTIX - Historial</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+CENTIX
+</div>
+
+<div class="menu">
+
+<a href="/">📊 Dashboard</a>
+<a href="/monitoreo">📡 Monitoreo</a>
+<a href="/diagnostico">🧠 Diagnóstico IA</a>
+<a href="/historial">📋 Historial</a>
+<a href="/reportes">📄 Reportes</a>
+<a href="/configuracion">⚙ Configuración</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<h1>📋 Historial de Incidencias</h1>
+
+<div class="card">
+
+<label>Fecha Inicio</label>
+<input type="date">
+
+<label>Fecha Fin</label>
+<input type="date">
+
+<label>OLT</label>
+
+<select>
+<option>Todas</option>
+<option>CENTRAL</option>
+<option>JUAN PABLO II</option>
+<option>JICAMARCA</option>
+</select>
+
+</div>
+
+<br>
+
+<table>
+
+<tr>
+<th>Fecha</th>
+<th>OLT</th>
+<th>Board</th>
+<th>Puerto</th>
+<th>Estado</th>
+<th>Usuarios</th>
+</tr>
+
+<tr>
+<td>19/06/2026</td>
+<td>CENTRAL</td>
+<td>14</td>
+<td>15</td>
+<td>LOS</td>
+<td>15</td>
+</tr>
+
+<tr>
+<td>18/06/2026</td>
+<td>JICAMARCA</td>
+<td>5</td>
+<td>8</td>
+<td>Power Fail</td>
+<td>12</td>
+</tr>
+
+</table>
+
+</div>
+
+</body>
+
+</html>

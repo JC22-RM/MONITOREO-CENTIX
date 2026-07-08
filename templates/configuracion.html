@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>CENTIX - Configuración</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+CENTIX
+</div>
+
+<div class="menu">
+
+<a href="/">📊 Dashboard</a>
+<a href="/monitoreo">📡 Monitoreo</a>
+<a href="/diagnostico">🧠 Diagnóstico IA</a>
+<a href="/historial">📋 Historial</a>
+<a href="/reportes">📄 Reportes</a>
+<a href="/configuracion">⚙ Configuración</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<h1>⚙ Configuración del Sistema</h1>
+
+<div class="cards">
+
+<div class="card">
+
+<h3>🔗 SmartOLT</h3>
+
+<p>Estado: Conectado</p>
+
+<p>Actualización: 60 segundos</p>
+
+</div>
+
+<div class="card">
+
+<h3>🚨 Alertas</h3>
+
+<p>LOS mínimo: 3</p>
+
+<p>Power Fail mínimo: 5</p>
+
+<p>Offline mínimo: 5</p>
+
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>Telegram</h2>
+
+<label>Bot Token</label>
+
+<input
+type="text"
+style="width:100%;">
+
+<br><br>
+
+<label>Chat ID</label>
+
+<input
+type="text"
+style="width:100%;">
+
+<br><br>
+
+<button>
+Guardar
+</button>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

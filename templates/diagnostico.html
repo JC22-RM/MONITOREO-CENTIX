@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>CENTIX - Diagnóstico IA</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+
+<div class="logo">
+CENTIX
+</div>
+
+<div class="menu">
+
+<a href="/">📊 Dashboard</a>
+<a href="/monitoreo">📡 Monitoreo</a>
+<a href="/diagnostico">🧠 Diagnóstico IA</a>
+<a href="/historial">📋 Historial</a>
+<a href="/reportes">📄 Reportes</a>
+<a href="/configuracion">⚙ Configuración</a>
+
+</div>
+
+</div>
+
+<div class="main">
+
+<h1>🧠 Diagnóstico Inteligente</h1>
+
+<div class="card">
+
+<h2>Analizador de Incidencias</h2>
+
+<label>OLT</label>
+<select>
+<option>CENTRAL</option>
+<option>JUAN PABLO II</option>
+<option>JICAMARCA</option>
+</select>
+
+<br><br>
+
+<label>Board</label>
+<input type="text" value="14">
+
+<br><br>
+
+<label>Puerto</label>
+<input type="text" value="15">
+
+<br><br>
+
+<label>Estado</label>
+
+<select id="estado">
+<option>LOS</option>
+<option>Power fail</option>
+<option>Offline</option>
+</select>
+
+<br><br>
+
+<label>Clientes afectados</label>
+<input type="number" id="clientes" value="15">
+
+<br><br>
+
+<button onclick="diagnosticar()">
+Analizar
+</button>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>Resultado</h2>
+
+<h3 id="prioridad">
+🔴 CRÍTICO
+</h3>
+
+<p id="resultado">
+Posible corte de fibra principal.
+</p>
+
+</div>
+
+</div>
+
+<script>
+
+function diagnosticar(){
+
+let estado =
+document.getElementById("estado").value;
+
+let clientes =
+parseInt(
+document.getElementById("clientes").value
+);
+
+let resultado =
+document.getElementById("resultado");
+
+let prioridad =
+document.getElementById("prioridad");
+
+if(
+estado=="LOS"
+&& clientes>=10
+){
+
+prioridad.innerHTML="🔴 CRÍTICO";
+
+resultado.innerHTML=
+"Posible corte de fibra principal, FD o splitter.";
+
+}
+
+else if(
+estado=="LOS"
+&& clientes>=3
+){
+
+prioridad.innerHTML="🟠 RIESGO";
+
+resultado.innerHTML=
+"Posible afectación parcial.";
+
+}
+
+else{
+
+prioridad.innerHTML="🟢 NORMAL";
+
+resultado.innerHTML=
+"Incidencia menor.";
+
+}
+
+}
+
+</script>
+
+</body>
+
+</html>

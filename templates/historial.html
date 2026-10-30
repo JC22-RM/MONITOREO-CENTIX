@@ -1,99 +1,515 @@
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
 <meta charset="UTF-8">
-<title>CENTIX - Historial</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
+<title>CENTIX | Historial de Incidencias</title>
 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+<style>
+.hist-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+    margin-bottom:22px;
+}
+
+.hist-header p {
+    color:#64748b;
+    margin-top:7px;
+}
+
+.hist-stats {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:22px;
+}
+
+.hist-stat {
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    border-left:4px solid #2563eb;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.hist-stat h2 {
+    font-size:29px;
+    margin:10px 0;
+}
+
+.hist-stat p {
+    font-size:12px;
+    color:#64748b;
+}
+
+.hist-panel {
+    background:white;
+    padding:22px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,.05);
+}
+
+.hist-filters {
+    display:grid;
+    grid-template-columns:repeat(4,1fr) auto auto;
+    gap:12px;
+    align-items:end;
+}
+
+.hist-filters label {
+    display:block;
+    font-size:12px;
+    font-weight:bold;
+    color:#475569;
+    margin-bottom:7px;
+}
+
+.hist-filters input,
+.hist-filters select {
+    width:100%;
+    padding:11px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
+}
+
+.hist-btn {
+    padding:11px 16px;
+    border:0;
+    border-radius:7px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.hist-btn.green {
+    background:#16a34a;
+}
+
+.hist-table-wrap {
+    overflow-x:auto;
+}
+
+.hist-table {
+    width:100%;
+    border-collapse:collapse;
+    min-width:1100px;
+}
+
+.hist-table th {
+    background:#0f172a;
+    color:white;
+    padding:14px 10px;
+    font-size:13px;
+}
+
+.hist-table td {
+    padding:14px 10px;
+    border-bottom:1px solid #e2e8f0;
+    text-align:center;
+    font-size:13px;
+}
+
+.hist-table tr:hover {
+    background:#f8fafc;
+}
+
+.problem {
+    font-weight:bold;
+    color:#334155;
+}
+
+.solution {
+    color:#475569;
+    max-width:230px;
+}
+
+.tag {
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.tag-solved {
+    background:#dcfce7;
+    color:#15803d;
+}
+
+.tag-pending {
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.tag-router {
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.tag-fiber {
+    background:#fce7f3;
+    color:#be185d;
+}
+
+.tag-power {
+    background:#ffedd5;
+    color:#c2410c;
+}
+
+.hist-footer {
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    flex-wrap:wrap;
+    color:#64748b;
+    font-size:12px;
+    margin-top:15px;
+}
+
+.demo-warning {
+    padding:12px;
+    background:#fff7ed;
+    color:#9a3412;
+    border:1px solid #fed7aa;
+    border-radius:8px;
+    margin-bottom:18px;
+    font-size:13px;
+}
+
+@media(max-width:1000px) {
+    .hist-filters {
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:650px) {
+    .hist-stats {
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
 
+<!-- MENÚ LATERAL -->
+
 <div class="sidebar">
 
-<div class="logo">
-CENTIX
-</div>
+    <div class="logo">CENTIX</div>
 
-<div class="menu">
-
-<a href="/dashboard">📊 Dashboard</a>
-<a href="/monitoreo">📡 Monitoreo</a>
-<a href="/diagnostico">🧠 Diagnóstico IA</a>
-<a href="/historial">📋 Historial</a>
-<a href="/reportes">📄 Reportes</a>
-<a href="/usuarios">👥 Usuarios</a>
-<a href="/configuracion">⚙ Configuración</a>
-
-<hr>
-
-    <a href="/">🚪 Cerrar sesión</a>
+    <div class="menu">
+        <a href="/dashboard">📊 Dashboard</a>
+        <a href="/monitoreo">📡 Monitoreo</a>
+        <a href="/diagnostico">🔎 Análisis de Incidencias</a>
+        <a href="/historial" style="background:#1e293b;">📋 Historial</a>
+        <a href="/reportes">📄 Reportes</a>
+        <a href="/usuarios">👥 Usuarios</a>
+        <a href="/configuracion">⚙ Configuración</a>
+        <hr>
+        <a href="/">🚪 Cerrar sesión</a>
+    </div>
 
 </div>
 
-</div>
+
+<!-- CONTENIDO -->
 
 <div class="main">
 
-<h1>📋 Historial de Incidencias</h1>
+    <div class="hist-header">
+        <div>
+            <h1>📋 Historial de Incidencias</h1>
+            <p>Registro de problemas técnicos atendidos y sus soluciones</p>
+        </div>
 
-<div class="card">
+        <button class="hist-btn green" onclick="exportarHistorial()">
+            📊 Exportar historial
+        </button>
+    </div>
 
-<label>Fecha Inicio</label>
-<input type="date">
 
-<label>Fecha Fin</label>
-<input type="date">
+    <!-- INDICADORES -->
 
-<label>OLT</label>
+    <div class="hist-stats">
 
-<select>
-<option>Todas</option>
-<option>CENTRAL</option>
-<option>JUAN PABLO II</option>
-<option>JICAMARCA</option>
-</select>
+        <div class="hist-stat">
+            <small>📋 Incidencias registradas</small>
+            <h2>{{ historial|length }}</h2>
+            <p>Total de registros de ejemplo</p>
+        </div>
+
+        <div class="hist-stat" style="border-color:#16a34a;">
+            <small>✅ Incidencias solucionadas</small>
+            <h2>{{ solucionadas }}</h2>
+            <p>Problemas con atención concluida</p>
+        </div>
+
+        <div class="hist-stat" style="border-color:#f97316;">
+            <small>⏱ Tiempo promedio de solución</small>
+            <h2>{{ tiempo_promedio }} min</h2>
+            <p>Tiempo desde la detección hasta la solución</p>
+        </div>
+
+    </div>
+
+
+    <!-- FILTROS -->
+
+    <div class="hist-panel">
+
+        <h3>🔎 Buscar en el historial</h3>
+        <br>
+
+        <div class="hist-filters">
+
+            <div>
+                <label>Fecha inicial</label>
+                <input type="date" id="fechaInicio">
+            </div>
+
+            <div>
+                <label>Fecha final</label>
+                <input type="date" id="fechaFin">
+            </div>
+
+            <div>
+                <label>Tipo de problema</label>
+                <select id="filtroProblema">
+                    <option value="">Todos</option>
+                    <option value="Router sin conexión">Router sin conexión</option>
+                    <option value="Caja sin óptico">Caja sin óptico</option>
+                    <option value="Mufa sin óptico">Mufa sin óptico</option>
+                    <option value="ONU en LOS">ONU en LOS</option>
+                    <option value="Power Fail">Power Fail</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Estado</label>
+                <select id="filtroEstado">
+                    <option value="">Todos</option>
+                    <option value="Solucionado">Solucionado</option>
+                    <option value="Pendiente">Pendiente</option>
+                </select>
+            </div>
+
+            <button class="hist-btn" onclick="filtrarHistorial()">
+                🔍 Buscar
+            </button>
+
+            <button class="hist-btn" style="background:#64748b;" onclick="limpiarFiltros()">
+                Limpiar
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- TABLA -->
+
+    <div class="hist-panel">
+
+        <h3>📑 Registro de incidencias atendidas</h3>
+
+        <p style="font-size:12px;color:#64748b;margin-top:7px;margin-bottom:20px;">
+            Detalle del problema, infraestructura afectada y tiempo de resolución
+        </p>
+
+        <div class="hist-table-wrap">
+
+            <table class="hist-table" id="tablaHistorial">
+
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>OLT / Zona</th>
+                        <th>Problema detectado</th>
+                        <th>Elemento afectado</th>
+                        <th>Solución aplicada</th>
+                        <th>Tiempo de solución</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in historial %}
+
+                    <tr
+                        data-fecha="{{ item.fecha_iso }}"
+                        data-problema="{{ item.problema }}"
+                        data-estado="{{ item.estado }}">
+
+                        <td>{{ item.fecha }}</td>
+
+                        <td>
+                            <b>{{ item.olt }}</b><br>
+                            <small>{{ item.zona }}</small>
+                        </td>
+
+                        <td class="problem">
+                            {{ item.problema }}
+                        </td>
+
+                        <td>
+                            {% if item.elemento == "Router" %}
+                                <span class="tag tag-router">Router</span>
+                            {% elif item.elemento in ["Caja", "Mufa"] %}
+                                <span class="tag tag-fiber">{{ item.elemento }}</span>
+                            {% else %}
+                                <span class="tag tag-power">{{ item.elemento }}</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="solution">
+                            {{ item.solucion }}
+                        </td>
+
+                        <td>
+                            <b>{{ item.tiempo }} min</b>
+                        </td>
+
+                        <td>
+                            {% if item.estado == "Solucionado" %}
+                                <span class="tag tag-solved">Solucionado</span>
+                            {% else %}
+                                <span class="tag tag-pending">Pendiente</span>
+                            {% endif %}
+                        </td>
+
+                    </tr>
+
+                    {% else %}
+
+                    <tr>
+                        <td colspan="7">No existen registros en el historial.</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="hist-footer">
+            <span id="contador">{{ historial|length }} registros encontrados</span>
+            <span>CENTIX | Historial técnico</span>
+        </div>
+
+    </div>
+
+    <div style="text-align:center;color:#94a3b8;font-size:12px;padding:20px;">
+        CENTIX © 2026 | Registro de incidencias técnicas
+    </div>
 
 </div>
 
-<br>
 
-<table>
+<script>
 
-<tr>
-<th>Fecha</th>
-<th>OLT</th>
-<th>Board</th>
-<th>Puerto</th>
-<th>Estado</th>
-<th>Usuarios</th>
-</tr>
+function filtrarHistorial() {
 
-<tr>
-<td>19/06/2026</td>
-<td>CENTRAL</td>
-<td>14</td>
-<td>15</td>
-<td>LOS</td>
-<td>15</td>
-</tr>
+    const inicio = document.getElementById("fechaInicio").value;
+    const fin = document.getElementById("fechaFin").value;
+    const problema = document.getElementById("filtroProblema").value;
+    const estado = document.getElementById("filtroEstado").value;
 
-<tr>
-<td>18/06/2026</td>
-<td>JICAMARCA</td>
-<td>5</td>
-<td>8</td>
-<td>Power Fail</td>
-<td>12</td>
-</tr>
+    const filas = document.querySelectorAll("#tablaHistorial tbody tr");
 
-</table>
+    let contador = 0;
 
-</div>
+    filas.forEach(fila => {
+
+        if (!fila.dataset.fecha) return;
+
+        const fecha = fila.dataset.fecha;
+        const tipo = fila.dataset.problema;
+        const estadoFila = fila.dataset.estado;
+
+        const cumpleInicio = !inicio || fecha >= inicio;
+        const cumpleFin = !fin || fecha <= fin;
+        const cumpleProblema = !problema || tipo === problema;
+        const cumpleEstado = !estado || estadoFila === estado;
+
+        const mostrar =
+            cumpleInicio &&
+            cumpleFin &&
+            cumpleProblema &&
+            cumpleEstado;
+
+        fila.style.display = mostrar ? "" : "none";
+
+        if (mostrar) contador++;
+
+    });
+
+    document.getElementById("contador").textContent =
+        contador + " registros encontrados";
+
+}
+
+
+function limpiarFiltros() {
+
+    document.getElementById("fechaInicio").value = "";
+    document.getElementById("fechaFin").value = "";
+    document.getElementById("filtroProblema").value = "";
+    document.getElementById("filtroEstado").value = "";
+
+    filtrarHistorial();
+
+}
+
+
+function exportarHistorial() {
+
+    const filas = document.querySelectorAll("#tablaHistorial tr");
+    const contenido = [];
+
+    filas.forEach(fila => {
+
+        if (fila.style.display === "none") return;
+
+        const celdas = [...fila.querySelectorAll("th, td")];
+
+        contenido.push(
+            celdas.map(celda =>
+                '"' + celda.innerText.replace(/"/g, '""') + '"'
+            ).join(";")
+        );
+
+    });
+
+    const archivo = new Blob(
+        ["\uFEFF" + contenido.join("\n")],
+        {type:"text/csv;charset=utf-8;"}
+    );
+
+    const enlace = document.createElement("a");
+    const url = URL.createObjectURL(archivo);
+
+    enlace.href = url;
+    enlace.download = "CENTIX_Historial_Incidencias.csv";
+    enlace.click();
+
+    URL.revokeObjectURL(url);
+
+}
+
+</script>
 
 </body>
-
 </html>
